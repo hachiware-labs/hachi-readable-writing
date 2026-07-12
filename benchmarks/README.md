@@ -1,5 +1,7 @@
 # Writing skill benchmark
 
+For the complete narrative from research through model comparison and skill effectiveness, read the [integrated document generation and evaluation report](../REPORT.md).
+
 This benchmark compares documents generated before and after the proposed writing skill is applied. Each case contains equivalent Japanese and English natural-input prompts, a shared case specification, and captured outputs.
 
 The active input design is defined in [NATURAL_INPUT.md](NATURAL_INPUT.md). It uses only a short user request and unpolished background facts, leaving document design and prose decisions to the model. The earlier controlled prompts and baselines were removed after they proved too prescriptive for the intended writing evaluation.
