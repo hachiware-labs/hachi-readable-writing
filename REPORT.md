@@ -1,96 +1,96 @@
-# Hachi Readable Writing 文書生成・評価レポート
+# Hachi Readable Writing Document Generation and Evaluation Report
 
-評価日: 2026年7月12日
+Evaluation date: July 12, 2026
 
-## この調査で確かめたこと
+## What This Study Examined
 
-AIが生成する文章には、事実が正しく文法上も問題がないのに、人間には読みにくいものがある。特に技術文書では、見出しと箇条書きが説明を細かく分断し、個々の項目は理解できても、文書全体として「なぜこの話が次に続くのか」が見えにくくなる。英語では段落内部の説明が自然でも、同じ内容を導入、本文、まとめで繰り返し、文書や発表原稿が必要以上に長くなりやすい。
+Some AI-generated writing is factually correct and grammatically sound yet difficult for humans to read. In technical documentation in particular, headings and bullet points can fragment explanations into small pieces. Readers may understand each individual item but struggle to see why one part of the document leads to the next. In English, explanations within individual paragraphs may sound natural, but the same content is often repeated in the introduction, body, and conclusion, making documents and presentation scripts longer than necessary.
 
-この調査では、こうした問題がプロンプト、言語、文書種別、モデルのどこから生じるのかを切り分けた。そのうえで、人間が流れを追って読める文書を作るスキル `hachi-readable-writing` を作成し、GPT-5.6 SolとGPT-5.6 Lunaで導入前後を比較した。
+This study isolated whether these problems arise from the prompt, language, document type, or model. Based on the findings, we created `hachi-readable-writing`, a skill for producing documents whose flow human readers can follow, and compared GPT-5.6 Sol and GPT-5.6 Luna before and after introducing the skill.
 
-結論から言えば、スキルによってSolは平均84.2点から88.9点へ、Lunaは88.4点から90.4点へ改善した。導入前に4.2点あった両モデルの差は、導入後には1.5点まで縮まった。一方で、すべての文書が改善したわけではなく、もともと良かったLunaのプレゼン原稿では平均0.6点の低下が残った。
+In summary, the skill improved Sol’s average score from 84.2 to 88.9 and Luna’s from 88.4 to 90.4. The 4.2-point gap between the two models before the skill was introduced narrowed to 1.5 points afterward. However, not every document improved: Luna’s presentation scripts, which were already strong, declined by an average of 0.6 points.
 
-## なぜ試験方法を変更したか
+## Why We Changed the Testing Method
 
-最初のプロンプトは、対象読者、必要な節、注意点、文字数まで詳しく指定していた。この方式では高品質な文書が得られたが、モデル自身が文書を設計する余地が少ない。実際、最初の4文書をFable-5で評価した結果は82点、87点、92点、88点であり、減点の多くは表や箇条書きの追加、情報の抜けに関するものだった。これは「AIらしい不自然な文章」を測る試験というより、詳細な仕様に従えるかを測る試験になっていた。
+The initial prompts specified the target audience, required sections, cautions, and even the desired length in detail. This approach produced high-quality documents, but left little room for the models to design the documents themselves. In fact, the first four documents received Fable-5 scores of 82, 87, 92, and 88, with most deductions relating to the addition of tables and bullet points or omitted information. Rather than measuring “unnaturally AI-like writing,” the test had become a measure of compliance with detailed specifications.
 
-そこで、実際の入力欄に近い形式へ変更した。各プロンプトは、ユーザーが入力する2～3行の依頼と、手元にある背景知識の箇条書きだけで構成した。見出し、表、説明順、文体、注意事項の強調方法は指定していない。この形式なら、読者の想定、情報の選択、段落のつながり、形式の使い分けをモデル自身が判断する。
+We therefore changed to a format closer to an actual input field. Each prompt consisted only of a two- or three-line user request and a bulleted list of available background information. We did not specify headings, tables, the order of explanation, writing style, or how cautions should be emphasized. This format required the models themselves to determine the intended audience, select information, connect paragraphs, and choose appropriate formats.
 
-## 題材と生成条件
+## Topics and Generation Conditions
 
-題材は30件で、日本語と英語を別々に生成した。内訳は技術文書10件、日常文書15件、プレゼン文書5件である。
+There were 30 topics, generated separately in Japanese and English. They comprised 10 technical documents, 15 everyday documents, and 5 presentation documents.
 
-技術文書にはAPI説明、オフライン設計、復元マニュアル、CLI導入、ソフトウェア開発、Webhookチュートリアル、障害対応、設定移行、セキュリティー手順、モノレポのオンボーディングを含めた。日常文書には通知、メール、旅行計画、レシピ、修理依頼、学校案内、交換相談、家計メモ、出品文、募集案内に加え、エッセイ、日報、成長記録、旅行記、活動報告を含めた。プレゼンは経営提案、技術移行、住民説明、製品実演、社内勉強会に分けた。
+The technical documents covered an API explanation, offline design, a recovery manual, CLI setup, software development, a Webhook tutorial, incident response, configuration migration, security procedures, and monorepo onboarding. The everyday documents covered a notification, email, travel plan, recipe, repair request, school announcement, exchange inquiry, household budget memo, listing description, and recruitment notice, as well as an essay, daily report, growth record, travelogue, and activity report. The presentations were divided into an executive proposal, technical migration, resident briefing, product demonstration, and internal study session.
 
-すべての生成はCodex CLI 0.144.1を使用し、推論設定を `high` に統一した。文書ごとに独立した一時セッションを作り、ユーザー設定、プロジェクト規則、別文書の会話履歴を読み込ませなかった。スキルなしではSolとLunaで各60文書、スキルありでも各60文書を生成したため、評価対象は合計240文書となる。
+All generation used Codex CLI 0.144.1, with the reasoning setting standardized to `high`. An independent temporary session was created for each document, without loading user settings, project rules, or conversation history from other documents. Sol and Luna each generated 60 documents without the skill and another 60 with the skill, resulting in a total of 240 documents for evaluation.
 
-## 採点方法
+## Scoring Method
 
-各文書は100点満点で評価した。内訳は、文書全体の順序と段落間の関係をみる「流れ」、読者が制約や次の行動を誤解しないかをみる「理解」、語彙・文体・専門語が読者に合うかをみる「言葉」、見出し・箇条書き・表・コードが理解を助けているかをみる「形式」の各25点である。
+Each document was scored out of 100 points. The score comprised four 25-point categories: “flow,” which assessed the overall document order and relationships between paragraphs; “comprehension,” which assessed whether readers might misunderstand constraints or next actions; “language,” which assessed whether the vocabulary, style, and technical terminology suited the reader; and “format,” which assessed whether headings, bullet points, tables, and code supported comprehension.
 
-プレゼンでは、箇条書きが存在するだけでは減点せず、一度聞いて理解できる量か、指定時間に収まるか、スライドの役割が一つの主張へつながっているかを評価した。障害対応では最初の安全な行動が見えるか、エッセイでは出来事の列挙ではなく理解の変化と結末があるかを重視した。
+For presentations, the mere presence of bullet points did not result in deductions. Instead, we assessed whether the amount of information could be understood on first hearing, whether the presentation would fit within the specified time, and whether each slide’s role contributed to a single overall claim. For incident response documents, we emphasized whether the first safe action was clear. For essays, we emphasized whether they showed a change in understanding and had a conclusion rather than merely listing events.
 
-この点数は人間の被験者を集めた実験結果ではない。Codexによる編集評価であり、採点回ごとの尺度のずれを抑えるため、既存文書の点数を基準として導入後の文書を相対評価した。したがって、絶対的な品質保証ではなく、モデルとスキルの傾向を比較する指標として扱う必要がある。
+These scores are not the results of an experiment involving human participants. They are editorial evaluations conducted by Codex. To reduce variation in scoring standards between evaluation runs, the post-introduction documents were assessed relative to the scores of the existing documents. The scores should therefore be treated not as an absolute guarantee of quality, but as indicators for comparing tendencies across models and the skill.
 
-## スキルなしで見えたモデル特性
+## Model Characteristics Observed Without the Skill
 
 ### Sol
 
-Solは日常のメール、通知、エッセイでは自然な文章を作れた。期限延長メールと旅行記は95点であり、目的と宛先が具体的な文章では簡潔な散文へ収束した。
+Sol produced natural writing for everyday emails, notifications, and essays. The deadline-extension email and travelogue each scored 95 points. When the purpose and recipient were specific, Sol converged on concise prose.
 
-弱点は複雑な技術文書だった。オフライン設計の日本語版は見出し24、箇条書き104に達し、62点となった。トークン漏えい手順の日本語版も、実行順は正しいが16見出しと64箇条書きに分かれ、60点だった。開発ガイドは代表的なコード例を求めた依頼から、英語で約20KBの半完成実装へ膨張し、50点となった。
+Its weakness was complex technical documentation. The Japanese version of the offline design reached 24 headings and 104 bullet points and scored 62. The Japanese token-leak procedure also had the correct execution order but was divided into 16 headings and 64 bullet points, resulting in a score of 60. In response to a request for representative code examples, the development guide expanded into an approximately 20 KB, partially completed implementation in English and scored 50.
 
-英語では、段落単位の説明は比較的自然だが、文書全体を長くする傾向が強かった。10～15分のプレゼンが約6,800～11,000字となり、論理順は正しくても実際には時間内で話せないものがあった。
+In English, explanations at the paragraph level were relatively natural, but there was a strong tendency to make the overall document too long. Presentations intended to last 10–15 minutes were approximately 6,800–11,000 characters long. Although logically ordered, some could not realistically be delivered within the allotted time.
 
 ### Luna
 
-Lunaのスキルなし平均は88.4点で、Solより4.2点高かった。障害対応やセキュリティー手順で主な行動経路を保ち、英語プレゼンもSolより短くまとめる傾向があった。英語の平均文字数はSolの約4,344字に対してLunaは約3,399字だった。
+Luna’s average score without the skill was 88.4, 4.2 points higher than Sol’s. It preserved the primary course of action in incident response and security procedures, and tended to make English presentations shorter than Sol’s. Luna’s English documents averaged approximately 3,399 characters, compared with approximately 4,344 for Sol.
 
-一方、Lunaは依頼を文書回答ではなくファイル作成作業と解釈する場合があった。読み取り専用環境なので保存できなかったという作業報告を完成文書へ混ぜたり、文書全体をMarkdownコードフェンスで囲んだりした。内容が良くても、そのまま利用できないという別種の問題である。
+However, Luna sometimes interpreted requests as file-creation tasks rather than requests for document content. It would incorporate a work report stating that it could not save the file because the environment was read-only, or wrap the entire document in a Markdown code fence. Even when the content was good, this created a different kind of problem: the output could not be used as-is.
 
-## 作成したスキル
+## The Skill We Created
 
-`hachi-readable-writing` は、モデル名ごとの定型命令だけで動くものではない。モデル特性は事前の注意点として使い、実際の草稿に現れた症状を優先して補正する。
+`hachi-readable-writing` does not operate solely through fixed instructions for each model name. Model characteristics are used as advance cautions, while corrections prioritize symptoms that actually appear in the draft.
 
-執筆前には、読者、読後の行動、文書を支える一つの問い、既知と未知、連続して読む文書か参照用文書かを判断する。執筆時には、因果、時間、対比、判断の理由をまず文章で説明し、本当に並列な情報だけを箇条書きにする。執筆後には、段落のつながり、反復、入力外の追加、分量、出力言語、作業報告や外側コードフェンスの混入を検査する。
+Before writing, it determines the reader, the action the reader should take afterward, the single question supporting the document, what is known and unknown, and whether the document is intended to be read continuously or used as a reference. During writing, it first explains causality, time, contrast, and the reasons behind decisions in prose, using bullet points only for information that is genuinely parallel. After writing, it checks paragraph transitions, repetition, additions not found in the input, length, output language, and the accidental inclusion of work reports or outer code fences.
 
-日本語では、名詞句や英単語を並べるだけにせず、誰が何をなぜ行うかを文として示す。英語では、導入、本文、まとめ、チェックリストに同じ説明を重ねない。Solでは過剰な網羅と細分化、Lunaでは作業報告と完成文書の混同を重点的に確認する。
+In Japanese, it avoids merely lining up noun phrases or English terms and instead states in sentences who does what and why. In English, it avoids repeating the same explanation in the introduction, body, conclusion, and checklist. For Sol, it focuses on excessive comprehensiveness and fragmentation; for Luna, it focuses on confusion between work reports and completed documents.
 
-プレゼンについては試験中に規則を修正した。当初は、スキルがスライド表示文と読み上げ原稿を同時に作り、Solの文書をさらに長くする問題が出た。そのため、ユーザーが明示しない限り両方を作らず、「プレゼン原稿」は話す内容として扱うよう変更した。また、発表時間の15%を転換、間、実演に残すことを追加した。
+The presentation rules were revised during testing. Initially, the skill produced both slide text and a spoken script simultaneously, making Sol’s documents even longer. We therefore changed it so that it would not produce both unless explicitly requested by the user, and would treat a “presentation script” as the content to be spoken. We also added a requirement to reserve 15% of the presentation time for transitions, pauses, and demonstrations.
 
-## スキル導入後の結果
+## Results After Introducing the Skill
 
-| 区分 | スキルなし | スキルあり | 差 |
+| Category | Without skill | With skill | Difference |
 |---|---:|---:|---:|
-| Sol・全60文書 | 84.2 | **88.9** | +4.6 |
-| Sol・日本語 | 84.9 | **89.1** | +4.2 |
-| Sol・英語 | 83.6 | **88.7** | +5.1 |
-| Sol・技術文書 | 79.8 | **85.0** | +5.1 |
-| Sol・日常文書 | 87.9 | **91.0** | +3.1 |
-| Sol・プレゼン | 82.1 | **90.4** | +8.3 |
-| Luna・全60文書 | 88.4 | **90.4** | +2.1 |
-| Luna・日本語 | 88.1 | **89.6** | +1.5 |
-| Luna・英語 | 88.7 | **91.3** | +2.6 |
-| Luna・技術文書 | 85.6 | **89.0** | +3.4 |
-| Luna・日常文書 | 89.8 | **91.9** | +2.1 |
-| Luna・プレゼン | 89.5 | **88.9** | −0.6 |
+| Sol · All 60 documents | 84.2 | **88.9** | +4.6 |
+| Sol · Japanese | 84.9 | **89.1** | +4.2 |
+| Sol · English | 83.6 | **88.7** | +5.1 |
+| Sol · Technical documents | 79.8 | **85.0** | +5.1 |
+| Sol · Everyday documents | 87.9 | **91.0** | +3.1 |
+| Sol · Presentations | 82.1 | **90.4** | +8.3 |
+| Luna · All 60 documents | 88.4 | **90.4** | +2.1 |
+| Luna · Japanese | 88.1 | **89.6** | +1.5 |
+| Luna · English | 88.7 | **91.3** | +2.6 |
+| Luna · Technical documents | 85.6 | **89.0** | +3.4 |
+| Luna · Everyday documents | 89.8 | **91.9** | +2.1 |
+| Luna · Presentations | 89.5 | **88.9** | −0.6 |
 
-Solでは37件が改善、12件が同点、11件が悪化した。Lunaでは41件が改善、8件が同点、11件が悪化した。
+For Sol, 37 documents improved, 12 were unchanged, and 11 worsened. For Luna, 41 documents improved, 8 were unchanged, and 11 worsened.
 
-改善幅が大きかったのは、Lunaの開発ガイド英語版が52点から83点、Solのトークン漏えい手順日本語版が60点から88点、接続枯渇対応日本語版が64点から87点、オフライン設計日本語版が62点から84点、トークン漏えい手順英語版が68点から90点だった。Solでは、狙いどおり複雑な技術文書の主線を回復する効果が大きかった。
+The largest improvements were Luna’s English development guide, which rose from 52 to 83; Sol’s Japanese token-leak procedure, from 60 to 88; the Japanese connection-exhaustion response, from 64 to 87; the Japanese offline design, from 62 to 84; and the English token-leak procedure, from 68 to 90. As intended, the skill had a particularly strong effect on restoring the primary narrative thread in Sol’s complex technical documents.
 
-悪化も残った。Lunaの認証移行プレゼン英語版は92点から87点、Solの開発ガイド英語版は50点から45点、Lunaの工事説明プレゼン英語版は91点から87点となった。特にLunaでは、もともと簡潔で完成度の高い文書へスキルが介入しすぎる場合がある。
+Some documents still worsened. Luna’s English authentication-migration presentation fell from 92 to 87, Sol’s English development guide from 50 to 45, and Luna’s English construction briefing presentation from 91 to 87. With Luna in particular, the skill sometimes intervened too heavily in documents that were already concise and highly polished.
 
-## この結果から分かったこと
+## What We Learned from the Results
 
-第一に、AI文章の問題は言語だけでは決まらない。モデル、言語、文書種別の組み合わせで現れ方が変わる。日本語の技術文書では細切れ化、英語のプレゼンでは長文化、Lunaでは作業報告の混入というように、同じ「読みにくさ」でも原因が異なる。
+First, the problems in AI-generated writing are not determined by language alone. Their manifestations vary depending on the combination of model, language, and document type. Japanese technical documents become fragmented, English presentations become overly long, and Luna mixes in work reports: although all of these can be described as “difficult to read,” they have different causes.
 
-第二に、文章を人間らしくするために、箇条書きを一律に禁止したり、感情語を足したりする必要はない。重要なのは、文書が答える問いを一つに定め、段落間の因果や時間関係を言葉でつなぎ、媒体に合う量へ収めることである。
+Second, making writing feel more human does not require uniformly prohibiting bullet points or adding emotional language. What matters is defining a single question for the document to answer, explicitly connecting causal and temporal relationships between paragraphs, and keeping the amount of content appropriate to the medium.
 
-第三に、良い草稿を変更しない判断が必要である。スキルは平均点を上げ、モデル差を縮めたが、Lunaのプレゼンでは逆効果も出た。今後は、草稿がすでに主線、分量、言語、形式の条件を満たす場合には、全面的な再構成を避け、局所的な修正だけを行う仕組みを強めるべきである。
+Third, a mechanism is needed to decide when not to change a good draft. The skill raised average scores and narrowed the gap between models, but it also had adverse effects on Luna’s presentations. In the future, when a draft already satisfies the requirements for its primary narrative thread, length, language, and format, the system should more strongly favor localized edits over complete restructuring.
 
-## 記録と再現性
+## Records and Reproducibility
 
-スキル本体は [`hachi-readable-writing/SKILL.md`](hachi-readable-writing/SKILL.md) にある。30題の定義と生成環境は [`benchmarks/README.md`](benchmarks/README.md)、全120件の導入前後比較は [`benchmarks/SKILL_EVALUATION.md`](benchmarks/SKILL_EVALUATION.md) に記録した。生成結果はモデル、言語、スキルの有無を分けて保存し、各系列のSHA-256ハッシュを目録化している。
+The skill itself is located at [`hachi-readable-writing/SKILL.md`](hachi-readable-writing/SKILL.md). The definitions of the 30 topics and the generation environment are documented in [`benchmarks/README.md`](benchmarks/README.md), and all 120 before-and-after comparisons are recorded in [`benchmarks/SKILL_EVALUATION.md`](benchmarks/SKILL_EVALUATION.md). Generated results are stored separately by model, language, and whether the skill was used, and the SHA-256 hash of each series has been cataloged.
 
-詳細な初期調査と参考文献は [`RESEARCH.md`](RESEARCH.md)、スキルなしのSol評価は [`benchmarks/NATURAL_EVALUATION.md`](benchmarks/NATURAL_EVALUATION.md)、SolとLunaの基準比較は [`benchmarks/LUNA_EVALUATION.md`](benchmarks/LUNA_EVALUATION.md) を参照できる。これらは統合レポートの根拠資料として残す。
+The detailed initial investigation and references are available in [`RESEARCH.md`](RESEARCH.md), the evaluation of Sol without the skill in [`benchmarks/NATURAL_EVALUATION.md`](benchmarks/NATURAL_EVALUATION.md), and the baseline comparison of Sol and Luna in [`benchmarks/LUNA_EVALUATION.md`](benchmarks/LUNA_EVALUATION.md). These are retained as supporting materials for the consolidated report.

@@ -1,102 +1,101 @@
-# AIエージェントが生成する文章の問題と、人が読める文章へ戻すための調査
+# Problems with AI Agent-Generated Writing and Research on Restoring It to Human-Readable Prose
 
-調査日: 2026年7月12日
+Research date: July 12, 2026
 
-## 結論
+## Conclusion
 
-現在のAIエージェントが作る文章の読みにくさは、単純な日本語能力の不足ではない。より根本には、文章の目的が「人に読ませ、考えの流れを伝えること」から、「処理結果を素早く示し、項目ごとに確認できること」へすり替わる問題がある。本稿では、このエージェント特有の書き方を便宜上「操作文体」と呼ぶ。
+The difficulty of reading text produced by today’s AI agents is not simply a matter of inadequate proficiency in Japanese. At a more fundamental level, the purpose of writing has shifted from “being read by people and conveying the flow of thought” to “presenting processing results quickly and making them easy to verify item by item.” For convenience, this report refers to this agent-specific mode of writing as an “operational writing style.”
 
-操作文体では、結論、根拠、注意点、次の行動が、それぞれ独立した小片として並ぶ。見出し、太字、箇条書き、短い段落は増えるが、前の段落を受けて次の段落へ進む論理は弱くなる。情報は存在していても、読み手は自分で関係を組み直さなければならない。日本語では、これに外来語の選択、名詞中心の表現、英語圏で作られた構成の持ち込みが重なり、さらに不自然さが強く現れる。
+In the operational writing style, conclusions, evidence, caveats, and next actions are arranged as separate fragments. Headings, bold text, bullet points, and short paragraphs become more numerous, while the logic that carries the reader from one paragraph to the next becomes weaker. The information may be present, but readers must reconstruct the relationships themselves. In Japanese, this is compounded by the choice of loanwords, noun-heavy expressions, and the importation of structures developed in the English-speaking world, making the writing appear even more unnatural.
 
-したがって、作るべきスキルは「AIらしい単語を削るスキル」では足りない。必要なのは、読み手、文書の目的、ジャンル、段落間の関係、語彙の場面適合性を決めてから書き、最後に文書全体の流れを検査するスキルである。目標はAI判定器を欺くことではなく、読み手が途中で構造を再構成せずに、書き手の考えを順に追えることに置くべきである。
+The skill that should be created, therefore, cannot merely be one that “removes AI-like words.” What is needed is a skill that determines the reader, the document’s purpose, the genre, the relationships between paragraphs, and whether the vocabulary is appropriate to the context before writing, and then examines the flow of the document as a whole at the end. The goal should not be to deceive AI detectors, but to enable readers to follow the writer’s thinking in sequence without having to reconstruct the structure along the way.
 
-## まず確認できた事実
+## Facts Established First
 
-GPT-5.5とGPT-5.6は、2026年7月時点で実在する公開モデルである。OpenAIの公式資料では、GPT-5.5の既定の書き方は「効率的、直接的、タスク志向」と説明されている。会話や顧客向けの文章では、人格、温かさ、理由、書式を明示する必要があるとも書かれている。GPT-5.6は5.5よりさらに簡潔になる傾向があり、「簡潔に」といった広い指示は回答を短くしすぎる場合があるとされる。これは、今回指摘された細切れの文章と整合する。[OpenAIのGPT-5.5/5.6モデル指針](https://developers.openai.com/api/docs/guides/latest-model)
+GPT-5.5 and GPT-5.6 are publicly available models that exist as of July 2026. OpenAI’s official documentation describes GPT-5.5’s default writing style as “efficient, direct, and task-oriented.” It also states that personality, warmth, rationale, and formatting need to be specified for conversational or customer-facing writing. GPT-5.6 tends to be even more concise than 5.5, and broad instructions such as “be concise” may make responses too short. This is consistent with the fragmented writing identified here. [OpenAI’s model guidance for GPT-5.5 and GPT-5.6](https://developers.openai.com/api/docs/guides/latest-model)
 
-同じ公式資料は、通常の会話、説明、報告、技術文書では平文の段落を基本とし、見出し、太字、箇条書き、番号付きリストは理解を助ける場合に限って使うよう勧めている。つまり、現在のモデルは書式を制御できないのではない。既定の簡潔さと、エージェントを取り巻く指示の重なりによって、文章用途にも操作文体が流れ込んでいると考える方が妥当である。
+The same official documentation recommends using plain-text paragraphs as the default for ordinary conversation, explanations, reports, and technical documents, and using headings, bold text, bullet points, and numbered lists only when they improve comprehension. In other words, the current models are not incapable of controlling formatting. It is more reasonable to conclude that the models’ default concision, combined with layers of instructions surrounding agents, allows the operational writing style to spill over into prose-oriented tasks.
 
-ただし、GPT-5.5とGPT-5.6の日本語長文を直接比較し、外来語率、段落の連続性、箇条書き率を測った公開研究は、今回確認した範囲では見つからなかった。「5.6は5.5より日本語が悪い」「5.5以降に外来語が急増した」とまでは、まだ公開資料から断定できない。この部分は、後述する独自評価で確かめる必要がある。
+However, within the scope of this research, no published study was found that directly compares long-form Japanese output from GPT-5.5 and GPT-5.6 and measures loanword frequency, paragraph continuity, or the proportion of bullet points. Publicly available materials do not yet support definitive claims that “GPT-5.6 produces worse Japanese than GPT-5.5” or that “loanword usage increased sharply from GPT-5.5 onward.” This must be verified through the original evaluation described below.
 
-## 各言語に共通する問題
+## Problems Common Across Languages
 
-近年の研究では、文法的に正しく流暢であることと、人間らしい文章であることが分かれ始めている。英語の人間文と複数の指示調整済みモデルを比べた研究では、モデルの文章は名詞が多く、情報密度の高い独特の文体を保ち、くだけた話し言葉をまねるよう指示してもジャンル慣習に十分なじまなかった。[Do LLMs write like humans?](https://pmc.ncbi.nlm.nih.gov/articles/PMC11874169/)
+Recent research has begun to distinguish between writing that is grammatically correct and fluent and writing that resembles human prose. A study comparing human-authored English with the output of several instruction-tuned models found that model-generated writing used more nouns, retained a distinctive and information-dense style, and did not adequately conform to genre conventions even when instructed to imitate casual spoken language. [Do LLMs write like humans?](https://pmc.ncbi.nlm.nih.gov/articles/PMC11874169/)
 
-さらに、2026年のACL論文は、新しい指示調整済みモデルほど、古い非指示調整モデルより構文と語彙、とりわけ語彙の多様性が低いと報告している。指示への追従や一貫性が上がる一方で、表現の幅が狭くなった可能性がある。[More Aligned, Less Diverse?](https://aclanthology.org/2026.acl-long.1803/) TACLの別研究も、モデル評価が問題解決能力へ偏り、語彙、構文、意味表現の多様性が人間と同じかという基礎的な問いが軽視されてきたと指摘する。[Benchmarking Linguistic Diversity of Large Language Models](https://aclanthology.org/2025.tacl-1.69/)
+Furthermore, a 2026 ACL paper reports that newer instruction-tuned models exhibit less syntactic and lexical diversity—particularly lexical diversity—than older models without instruction tuning. Although instruction following and consistency have improved, the range of expression may have narrowed. [More Aligned, Less Diverse?](https://aclanthology.org/2026.acl-long.1803/) Another TACL study also observes that model evaluation has focused disproportionately on problem-solving ability, while neglecting the fundamental question of whether lexical, syntactic, and semantic diversity resembles that of humans. [Benchmarking Linguistic Diversity of Large Language Models](https://aclanthology.org/2025.tacl-1.69/)
 
-語彙の偏りは実際の文書にも現れている。科学英語では、`delve`、`intricate`、`underscore`など、生成AIが好む語の頻度が急増した。個々の語を禁止すれば解決するわけではないが、モデルが無色透明な平均文を書くのではなく、特定の語彙と構文を繰り返し選ぶことは確かである。[Why Does ChatGPT “Delve” So Much?](https://arxiv.org/abs/2412.11385)、[Delving into LLM-assisted writing in biomedical publications through excess vocabulary](https://pmc.ncbi.nlm.nih.gov/articles/PMC12219543/)
+Lexical bias is also appearing in real-world documents. In scientific English, the frequency of words favored by generative AI, such as `delve`, `intricate`, and `underscore`, has risen sharply. Banning individual words will not solve the problem, but it is clear that models do not produce a neutral, featureless average style; they repeatedly select particular vocabulary and syntactic structures. [Why Does ChatGPT “Delve” So Much?](https://arxiv.org/abs/2412.11385), [Delving into LLM-assisted writing in biomedical publications through excess vocabulary](https://pmc.ncbi.nlm.nih.gov/articles/PMC12219543/)
 
-ここから、「AIらしさ」は誤字や文法違反ではなく、選択の偏りに宿ると考えられる。同じ意味を持つ語のうち、どれをどの場面で選ぶか。文をどの長さで終えるか。説明を段落にするか、見出し付きの項目にするか。反論や留保をどの位置に置くか。こうした選択が均質になることで、文章は正しいのに、誰も実際にはこう書かないという状態になる。
+This suggests that “AI-like writing” resides not in typographical or grammatical errors, but in biased choices. Which word is selected from among words with the same meaning in a given context? How long is a sentence allowed to run before it ends? Is an explanation presented as a paragraph or as an item under a heading? Where are objections and qualifications placed? As these choices become uniform, the result is writing that is correct but that no one would actually write in that way.
 
-## 日本語で問題が強く見える理由
+## Why the Problem Is More Pronounced in Japanese
 
-日本語では、外来語、和語、漢語が同じ意味領域に共存し、場面、相手、専門性、書き手の立場によって選択が変わる。2026年に発表された、日本語の英語由来外来語と日本語の対応語を比べる研究は、16の日本語対応モデルを113組の語で評価した。その結果、モデルはどちらの表現も表面的には自然だと判定しやすい一方、実際の選択ではモデル間の差が大きく、場面に応じた安定した規則を持っていなかった。GPT-5には一定の場面感応性が見られたが、この研究には人間の規範値がなく、外来語を過剰に使うと直接証明したものではない。重要なのは、流暢さだけでは語の場面適合性を保証できないと示した点である。[Borrowed Words, Borrowed Minds](https://aclanthology.org/2026.nlpcss-1.2.pdf)
+In Japanese, loanwords, native Japanese words, and Sino-Japanese words coexist within the same semantic domains, and the appropriate choice varies according to the context, audience, level of specialization, and the writer’s position. A study published in 2026 comparing English-derived loanwords in Japanese with their Japanese equivalents evaluated 16 Japanese-capable models using 113 word pairs. It found that models tended to judge both forms as superficially natural, while their actual choices varied greatly between models and did not follow stable, context-sensitive rules. GPT-5 exhibited some contextual sensitivity, but the study did not include normative human data and therefore did not directly demonstrate that the model overuses loanwords. What matters is that the study showed fluency alone cannot guarantee that a word is appropriate to its context. [Borrowed Words, Borrowed Minds](https://aclanthology.org/2026.nlpcss-1.2.pdf)
 
-日本語では、トークン分割の不安定さが自然な文法選択を妨げ、モデルが本来より不自然な別の文型を選ぶ場合があるという報告もある。[Inconsistent Tokenizations Cause Language Models to be Perplexed by Japanese Grammar](https://aclanthology.org/2025.acl-short.75/) また、GPT-3.5とGPT-4が書いた日本語論文は、助詞、読点、機能語などの文体特徴によって人間の論文とかなり明確に区別できた。これは旧世代の結果ではあるが、文章の不自然さが単語表だけでなく、助詞や文の組み立て方にも現れることを示している。[日本語文体分析によるGPT生成文と人間文の識別](https://pmc.ncbi.nlm.nih.gov/articles/PMC10411719/)
+There are also reports that instability in Japanese tokenization can interfere with natural grammatical choices, causing models to select constructions that are more unnatural than the ones they would otherwise use. [Inconsistent Tokenizations Cause Language Models to be Perplexed by Japanese Grammar](https://aclanthology.org/2025.acl-short.75/) In addition, Japanese academic papers written by GPT-3.5 and GPT-4 could be distinguished fairly clearly from human-authored papers based on stylistic features such as particles, commas, and function words. Although this finding concerns an older generation of models, it demonstrates that unnaturalness appears not only in vocabulary lists but also in particles and sentence construction. [Distinguishing GPT-Generated and Human-Written Text Through Japanese Stylistic Analysis](https://pmc.ncbi.nlm.nih.gov/articles/PMC10411719/)
 
-文化庁の「公用文作成の考え方」は、専門用語や外来語をむやみに用いず、読み手に通じる言葉を選ぶよう求めている。定着した外来語はそのまま使い、日常的な和語や漢語で言い換えられるものは言い換え、難しいものには説明を付けるという判断である。たとえば「アジェンダ」は「議題」、「インタラクティブ」は「双方向的」とする。この方針は外来語の全面禁止ではなく、読み手と場面に応じた選択を求めている。[文化庁「公用文作成の考え方」](https://www.bunka.go.jp/seisaku/bunkashingikai/kokugo/hokoku/pdf/93651301_01.pdf) 国立国語研究所の外来語言い換え提案も、公共性の高い文章で分かりにくい外来語を無造作に多用すると、情報共有に支障が生じるという問題意識から作られている。[国立国語研究所の外来語言い換え手引き](https://kotoba.ninjal.ac.jp/mado/28/28-03/)
+The Japanese Agency for Cultural Affairs’ “Guidelines for Preparing Official Documents” calls for avoiding the indiscriminate use of technical terms and loanwords and selecting language that readers will understand. Its approach is to retain loanwords that are already established, replace those that can be expressed in everyday native or Sino-Japanese words, and explain those that are difficult. For example, it recommends replacing “agenda” with “topic for discussion” and “interactive” with “bidirectional.” This policy does not prohibit loanwords outright; it calls for choices suited to the reader and context. [Japanese Agency for Cultural Affairs, “Guidelines for Preparing Official Documents”](https://www.bunka.go.jp/seisaku/bunkashingikai/kokugo/hokoku/pdf/93651301_01.pdf) The National Institute for Japanese Language and Linguistics’ proposals for replacing loanwords were likewise developed out of concern that casually overusing obscure loanwords in documents of high public importance can impede the sharing of information. [National Institute for Japanese Language and Linguistics’ Guide to Replacing Loanwords](https://kotoba.ninjal.ac.jp/mado/28/28-03/)
 
-したがって、日本語向けスキルは「カタカナを減らす」という単純な規則にしてはいけない。`API`、`Git`、`LLM`のように、そのまま使う方が正確な専門語もある。必要なのは、その語が固有名詞か、対象読者に定着した専門語か、日本語に置き換えると意味がずれるか、初出時に説明が要るかを判断する手順である。
+A Japanese-language skill must therefore not be based on the simplistic rule of “using less katakana.” Some technical terms, such as `API`, `Git`, and `LLM`, are more precise when left unchanged. What is needed is a procedure for determining whether a term is a proper noun, an established technical term for the intended audience, something whose meaning would shift if translated into Japanese, or something that requires explanation on first use.
 
-## 「ストーリー感がない」の正体
+## What “Lacking a Sense of Story” Really Means
 
-ここでいうストーリーは、物語風の演出や感情的な書き出しではない。読み手が「なぜこの話が始まり、何が問題で、何が分かり、そのため何を考えるべきか」を順番に追える状態を指す。文と文の間、段落と段落の間に、原因、対比、具体化、例証、帰結といった関係があることが重要である。
+“Story” here does not mean adding narrative flourishes or an emotional opening. It refers to a state in which readers can follow, in order, “why this discussion began, what the problem is, what has been learned, and therefore what they should consider.” What matters is the presence of relationships between sentences and paragraphs, such as cause, contrast, elaboration, exemplification, and consequence.
 
-操作文体は、この関係を見出しや箇条書きのラベルで代用する。「課題」「原因」「解決策」と箱を三つ置くことはできても、原因からなぜその解決策が導かれるのかを文章で運ばない。その結果、情報設計は整って見えるが、読み手の理解は前へ進まない。
+The operational writing style substitutes headings and bullet-point labels for these relationships. It can create three boxes labeled “Problem,” “Cause,” and “Solution,” but it does not carry the reader through the reasoning that explains why the cause leads to that solution. As a result, the information architecture looks orderly, but the reader’s understanding does not move forward.
 
-文化庁の指針は、長い文を短くすることだけを勧めているわけではない。結論を最初の段落で示し、その後に目的、理由、根拠、詳細を続けること、見出しだけを追っても全体の流れが分かること、箇条書きは三つ以上の並列情報を示す場面で使うことを求めている。ここで大切なのは、短文化そのものではなく、論点と関係を整理することである。短い文を大量に並べても、関係がなければ読みやすくはならない。
+The Agency for Cultural Affairs’ guidelines do not merely recommend shortening long sentences. They call for presenting the conclusion in the first paragraph, following it with the purpose, reasons, evidence, and details; ensuring that the overall flow is apparent even when only the headings are read; and using bullet points when presenting three or more pieces of parallel information. The important point is not shortening the text itself, but organizing the arguments and their relationships. Merely placing a large number of short sentences one after another does not make text readable if those sentences are not connected.
 
-## 既存のskills.sh上のスキルと不足点
+## Existing Skills on skills.sh and Their Limitations
 
-skills.shには、人間らしい文章をうたうスキルがすでに複数ある。`human-writing`や`humanize-writing`は、英語版Wikipediaの「AI文章の兆候」を基に、誇張、宣伝調、`delve`のような頻出語、ダッシュ、太字、三項列挙、定型的な結論を取り除く。これらは表面上の癖を直す編集用として有用だが、英語中心であり、段落間の論理や日本語の語種選択は中心課題ではない。[factory-aiのhuman-writing](https://github.com/factory-ai/factory-plugins/blob/main/plugins/droid-evolved/skills/human-writing/SKILL.md)、[humanize-writing](https://github.com/jpeggdev/humanize-writing/blob/main/SKILL.md)
+Several skills on skills.sh already claim to produce more human-like writing. `human-writing` and `humanize-writing` draw on the English Wikipedia article about “signs of AI writing” to remove exaggeration, promotional tone, frequently used words such as `delve`, dashes, bold text, lists of three, and formulaic conclusions. They are useful as editing tools for correcting surface-level habits, but they are centered on English and do not treat the logic between paragraphs or Japanese lexical choices as their primary concerns. [factory-ai’s human-writing](https://github.com/factory-ai/factory-plugins/blob/main/plugins/droid-evolved/skills/human-writing/SKILL.md), [humanize-writing](https://github.com/jpeggdev/humanize-writing/blob/main/SKILL.md)
 
-`writing-clearly-and-concisely`は『The Elements of Style』を基に、能動態、具体語、不要語の削除、一段落一話題などを教える。英語の明晰な散文には役立つが、日本語の外来語、主語の省略、助詞、敬体・常体、場面に応じた距離感は扱わない。[writing-clearly-and-concisely](https://skills.sh/obra/the-elements-of-style/writing-clearly-and-concisely)
+`writing-clearly-and-concisely`, based on *The Elements of Style*, teaches the active voice, concrete language, the removal of unnecessary words, one topic per paragraph, and similar principles. It is useful for clear English prose, but it does not address Japanese loanwords, subject omission, particles, polite versus plain style, or context-appropriate interpersonal distance. [writing-clearly-and-concisely](https://skills.sh/obra/the-elements-of-style/writing-clearly-and-concisely)
 
-日本語向けには`japanese-copywriting`があるが、対象は広告、商品説明、ランディングページであり、一般的な説明文、報告書、提案書のためのスキルではない。内容にも `Copy-First`、`Wording`、`Transcreation`、`CTA`などの英語見出しが多く、今回解決したい問題をそれ自体が抱えている。[japanese-copywriting](https://github.com/ronantakizawa/japanese-copywriting/blob/main/SKILL.md)
+There is a Japanese-oriented skill called `japanese-copywriting`, but it targets advertisements, product descriptions, and landing pages rather than general explanatory writing, reports, and proposals. Its content also contains many English headings, including `Copy-First`, `Wording`, `Transcreation`, and `CTA`, and thus exhibits the very problem this research aims to solve. [japanese-copywriting](https://github.com/ronantakizawa/japanese-copywriting/blob/main/SKILL.md)
 
-この比較から、空いている領域は明確である。新しいスキルは「AIの痕跡を消す編集器」でも「広告コピー作成器」でもなく、複数言語に共通する文書全体の一貫性と、各言語固有の語彙・語用判断を組み合わせる必要がある。
+This comparison makes the unoccupied area clear. The new skill should be neither an “editor that erases traces of AI” nor an “advertising copy generator.” It must combine document-wide coherence shared across languages with language-specific lexical and pragmatic judgments.
 
-## スキルに必要な設計原則
+## Design Principles Required for the Skill
 
-第一に、書き始める前に文章の契約を決める。誰が、何を知るために、どの場面で読むのか。読み終えたときに、何を理解し、判断し、実行できればよいのか。文書の種類は説明、報告、提案、手順、批評のどれか。ここが曖昧なまま「分かりやすく書く」と指示すると、モデルは最も一般的な見出しと箇条書きへ逃げる。
+First, establish the writing contract before beginning. Who will read it, what do they need to learn, and in what context will they read it? By the end, what should they understand, be able to judge, or be able to do? Is the document an explanation, report, proposal, procedure, or critique? If these questions remain vague and the model is merely told to “write clearly,” it retreats to the most generic headings and bullet points.
 
-第二に、構成は見出しの一覧ではなく、主張と関係の列として作る。たとえば提案書なら、現状、そこで生じている不都合、原因、提案、提案が効く理由、代償、次の行動へ進む。説明文なら、問い、前提、仕組み、具体例、意味へ進む。全ての文書を「起承転結」や「結論・理由・例」の一型に押し込めず、ジャンルに応じて読み手が必要とする順序を選ぶ。
+Second, create the structure not as a list of headings but as a sequence of claims and relationships. A proposal, for example, might proceed from the current situation to the resulting inconvenience, its cause, the proposal, why the proposal will work, its costs, and the next action. An explanation might proceed from the question to its premises, mechanism, concrete examples, and significance. Do not force every document into a single formula such as *kishōtenketsu* or “conclusion, reason, example”; choose the order readers need according to the genre.
 
-第三に、段落を文章の基本単位にする。一段落は一つの中心的な働きを持つが、一文で終わらせる必要はない。前段落から何を受け取り、この段落で何を進め、次段落に何を渡すかを確認する。箇条書きは、順序のある手順、互いに並列な選択肢、確認項目など、項目として読む方が明らかに速い場合だけに使う。箇条書きの前後には、その一覧がなぜ必要で、何を意味するかを文章で置く。
+Third, treat the paragraph as the basic unit of prose. Each paragraph should have one central function, but it does not need to end after a single sentence. Check what it receives from the preceding paragraph, what it advances, and what it passes to the next paragraph. Use bullet points only when reading something as a set of items is clearly faster—for example, ordered procedures, parallel options, or checklists. Before and after the bullet points, explain in prose why the list is necessary and what it means.
 
-第四に、語彙を禁止語で管理しない。日本語では、外来語を「定着語」「専門上必要な語」「日本語で十分な語」「説明が必要な語」に分ける。英語やカタカナが必要なら使うが、格好よさや抽象度を上げるためだけの置換はしない。名詞を重ねるより、「誰が何をするか」が分かる動詞を選ぶ。利用者の文体見本がある場合は、一般的な人間らしさより、その人の語彙、文の運び、距離感を優先する。
+Fourth, do not manage vocabulary through banned-word lists. In Japanese, classify loanwords as “established terms,” “technically necessary terms,” “terms adequately expressed in Japanese,” or “terms requiring explanation.” Use English or katakana where necessary, but do not substitute them merely to make the prose sound more sophisticated or abstract. Instead of stacking nouns, choose verbs that make clear “who does what.” When a sample of the user’s writing is available, prioritize that person’s vocabulary, sentence flow, and interpersonal distance over generic human-likeness.
 
-第五に、下書きと推敲を分ける。最初の段階では、主張、根拠、関係、順序を直す。次の段階で、語彙、文の長短、助詞、重複、外来語、見出し、箇条書きを直す。表面の語だけを先に直すと、論理の切れた文章を滑らかに見せるだけになる。
+Fifth, separate drafting from revision. In the first stage, correct the claims, evidence, relationships, and order. In the next stage, correct the vocabulary, variation in sentence length, particles, repetition, loanwords, headings, and bullet points. Correcting only surface-level wording first merely makes disconnected reasoning appear smoother.
 
-第六に、書き換えでは内容を守る。既存のhumanizer系スキルには、文章を具体的に見せるため、元にない感情、意見、数値、固有の事情を足してしまう危険がある。新しいスキルは、事実、主張、根拠、留保、不確実性、引用関係を先に固定し、文体改善のために新しい事実を発明してはならない。
+Sixth, preserve content when rewriting. Existing humanizer-style skills risk adding emotions, opinions, figures, or specific circumstances not present in the source in order to make the writing appear concrete. The new skill must first fix the facts, claims, evidence, qualifications, uncertainty, and citation relationships in place, and it must not invent new facts for the sake of stylistic improvement.
 
-## 評価方法
+## Evaluation Method
 
-このスキルの成否は、「AIらしい単語が何個消えたか」では測れない。AI判定器を通過することも目標にしない。人が読んで理解できるか、元の意味を守っているか、場面に合うかを、別々の軸で評価する必要がある。
+The success of this skill cannot be measured by “how many AI-like words were removed.” Passing an AI detector should not be a goal either. Whether people can read and understand the text, whether it preserves the original meaning, and whether it suits the context must be evaluated along separate dimensions.
 
-中心となる評価は、日本語母語話者による一対比較がよい。同じ依頼に対する既定出力、既存のhumanizerを通した出力、新しいスキルの出力を、モデル名を隠して比べる。評価者には、読み進めやすさ、段落間のつながり、語彙の自然さ、読み手への適合、内容の保持、書式の妥当性を別々に採点してもらう。「人間が書いたように見えるか」だけを聞くと、わざと雑に書く方向へ最適化されるため避ける。
+The primary evaluation should use pairwise comparisons by native Japanese speakers. For the same request, compare the default output, output processed by an existing humanizer, and output produced with the new skill, with the model names concealed. Evaluators should score ease of reading, connections between paragraphs, naturalness of vocabulary, suitability for the intended reader, preservation of content, and appropriateness of formatting separately. Asking only whether the text “looks as though it was written by a human” should be avoided because it encourages optimization toward deliberately sloppy writing.
 
-自動計測は合否判定ではなく、異常を見つける補助に使う。見る価値があるのは、箇条書きが占める割合、一文だけの段落の割合、見出し密度、英字・カタカナ語の割合、同じ接続表現の反復、文長のばらつき、名詞と動詞の比率、段落をまたぐ主要語の継続などである。外来語率が低ければ常に良い、文の長さがばらつけば人間らしい、という単純な閾値にはしない。
+Automated measurement should be used not to determine pass or fail, but to help identify anomalies. Metrics worth examining include the proportion of the text occupied by bullet points, the proportion of single-sentence paragraphs, heading density, the proportion of words written in Latin letters or katakana, repeated use of the same connective expressions, variation in sentence length, the ratio of nouns to verbs, and the continuity of key terms across paragraphs. These should not become simplistic thresholds such as “a lower loanword rate is always better” or “greater variation in sentence length is more human.”
 
-評価資料には、技術説明、調査報告、意思決定のための提案、利用者向け案内、電子メール、短い回答を含める。専門語を英語のまま残すべき例、箇条書きが最適な例、極端に短い回答が正しい例も入れる。そうしなければ、スキルは「英語を消し、全てを長い段落にする」という逆方向の癖を身につける。
+The evaluation materials should include technical explanations, research reports, proposals intended to support decision-making, user guidance, emails, and short answers. They should also include examples in which technical terms should remain in English, bullet points are the optimal format, or an extremely short answer is correct. Otherwise, the skill will develop the opposite habit of “removing English and turning everything into long paragraphs.”
 
-## 次の段階で行うべきこと
+## What Should Be Done Next
 
-次は、GPT-5.5とGPT-5.6の既定出力を同じ課題で収集し、今回の仮説を実測する。その際、モデルの問題、エージェントの上位指示の問題、skills.shスキルの効果を分ける必要がある。同じモデルでも、素の依頼、一般的な「分かりやすく書け」という依頼、今回の設計原則を与えた依頼を比較すれば、どこまでがモデル固有で、どこまでが指示で直せるかが分かる。
+The next step is to collect the default output of GPT-5.5 and GPT-5.6 on the same tasks and empirically test the hypotheses presented here. This will require distinguishing between problems inherent to the models, problems caused by higher-level agent instructions, and the effects of skills.sh skills. Comparing, for the same model, a bare request, a generic request to “write clearly,” and a request incorporating the design principles in this report will show how much is model-specific and how much can be corrected through instructions.
 
-その結果を基に、最小の`SKILL.md`、日本語向けの詳しい参照資料、ジャンル別の構成例、評価基準、機械的な偏りだけを検出する検査用スクリプトへ分けるのがよい。skills.shでは、スキルの説明文が発動条件になるため、「人間らしくする」のような曖昧な名前よりも、説明文、報告書、提案書、文書の推敲で、読み手に合わせた自然な文章と段落間の流れが必要なときに使う、と具体的に定義する必要がある。[VercelのAgent Skills解説](https://vercel.com/docs/agent-resources/skills)、[Agent Skillsの説明文最適化](https://agentskills.io/skill-creation/optimizing-descriptions)
+Based on those results, the skill should be divided into a minimal `SKILL.md`, detailed Japanese-language reference materials, genre-specific structural examples, evaluation criteria, and an inspection script that detects only mechanical biases. Because a skill’s description serves as its activation condition on skills.sh, it should be defined concretely as something to use for explanations, reports, proposals, and document revision when natural, reader-appropriate prose and flow between paragraphs are needed, rather than given a vague label such as “make it human-like.” [Vercel’s Guide to Agent Skills](https://vercel.com/docs/agent-resources/skills), [Optimizing Agent Skill Descriptions](https://agentskills.io/skill-creation/optimizing-descriptions)
 
-現段階での仮称としては、`reader-first-writing`または`human-readable-writing`が内容に近い。`humanizer`という名前は、AI判定の回避や表面的な言い換えを連想させるため避けたい。日本語を最初の重点言語にしつつ、共通部分を「文書の目的、談話の流れ、段落の役割、書式判断」、言語別部分を「語彙、敬意、語順、表記、文化的な場面適合性」と分ければ、他言語へも拡張できる。
+As provisional names, `reader-first-writing` and `human-readable-writing` are close to the intended content. The name `humanizer` should be avoided because it evokes bypassing AI detection or making superficial paraphrases. Japanese can be the first language of focus while the shared components are divided into “document purpose, discourse flow, paragraph roles, and formatting decisions,” and the language-specific components into “vocabulary, politeness, word order, orthography, and cultural appropriateness to the context.” This would make the skill extensible to other languages.
 
-## 参考にした主な資料
+## Principal Sources Consulted
 
 - [OpenAI: Model guidance for GPT-5.5 and GPT-5.6](https://developers.openai.com/api/docs/guides/latest-model)
 - [OpenAI: Models](https://developers.openai.com/api/docs/models)
-- [文化庁: 公用文作成の考え方](https://www.bunka.go.jp/seisaku/kokugo_nihongo/kokugo_shisaku/94336802.html)
-- [国立国語研究所: 分かりやすく伝える 外来語言い換え手引き](https://kotoba.ninjal.ac.jp/mado/28/28-03/)
+- [Japanese Agency for Cultural Affairs: Guidelines for Preparing Official Documents](https://www.bunka.go.jp/seisaku/kokugo_nihongo/kokugo_shisaku/94336802.html)
+- [National Institute for Japanese Language and Linguistics: Guide to Replacing Loanwords for Clearer Communication](https://kotoba.ninjal.ac.jp/mado/28/28-03/)
 - [Gude et al. (2026): More Aligned, Less Diverse?](https://aclanthology.org/2026.acl-long.1803/)
 - [Guo et al. (2025): Benchmarking Linguistic Diversity of Large Language Models](https://aclanthology.org/2025.tacl-1.69/)
 - [James (2026): Borrowed Words, Borrowed Minds](https://aclanthology.org/2026.nlpcss-1.2.pdf)
 - [Gambardella et al. (2025): Inconsistent Tokenizations Cause Language Models to be Perplexed by Japanese Grammar](https://aclanthology.org/2025.acl-short.75/)
 - [Vercel: Introducing skills.sh](https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem)
-
