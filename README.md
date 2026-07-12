@@ -1,6 +1,6 @@
 # hachi-readable-writing
 
-A research project and Skills-compatible writing skill for AI agents that need to produce documents people can follow and understand from beginning to end.
+Recent AI agents increasingly produce documents that list facts and processing results without giving the reader a clear line of thought. Such documents may be grammatically correct and factually accurate, yet remain difficult for people to understand because the relationships between the facts, the reasons for decisions, and the next action are left implicit. This skill addresses that problem by helping agents write documents that human readers can follow from beginning to end. It was designed from the research and benchmark results described below.
 
 ## Purpose
 

@@ -36,6 +36,8 @@ These scores are not the results of an experiment involving human participants. 
 
 ### Sol
 
+Sol is a strong general-purpose AI agent across many capability and task measures, but that strength does not automatically guarantee readable documents for people. The results here suggest that its ordinary instruction context was underspecified for human-facing document creation: it optimized for coverage, directness, and verifiability rather than for a reader's continuous understanding. In this narrower task, Sol was not good enough to use without additional writing guidance.
+
 Sol produced natural writing for everyday emails, notifications, and essays. The deadline-extension email and travelogue each scored 95 points. When the purpose and recipient were specific, Sol converged on concise prose.
 
 Its weakness was complex technical documentation. The Japanese version of the offline design reached 24 headings and 104 bullet points and scored 62. The Japanese token-leak procedure also had the correct execution order but was divided into 16 headings and 64 bullet points, resulting in a score of 60. In response to a request for representative code examples, the development guide expanded into an approximately 20 KB, partially completed implementation in English and scored 50.
