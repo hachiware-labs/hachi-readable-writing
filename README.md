@@ -17,6 +17,8 @@ The research is implemented as the `hachi-readable-writing` skill.
 
 Read the [integrated document generation and evaluation report](REPORT.md) for the research question, test design, model comparison, and before/after results.
 
+See the [Sol, Terra, and Luna comparison](MODEL_COMPARISON.md) for one consolidated table across all three models.
+
 Read [Hachi Readable Writing](hachi-readable-writing/SKILL.md) to use or inspect the skill. Language- and model-specific guidance is in [language-and-model.md](hachi-readable-writing/references/language-and-model.md).
 
 ## Install with Vercel Skills
