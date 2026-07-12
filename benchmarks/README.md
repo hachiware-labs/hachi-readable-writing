@@ -10,6 +10,8 @@ The natural-input baseline was captured on 2026-07-12 with the same CLI, model, 
 
 A second baseline was captured with `gpt-5.6-luna` at `high`, keeping the prompts, CLI version, personality, isolation flags, and empty read-only working directory unchanged. Its 60 outputs are named `luna-baseline.ja.md` and `luna-baseline.en.md`; hashes are in `LUNA_SHA256SUMS`. The calibrated comparison against Sol is recorded in [LUNA_EVALUATION.md](LUNA_EVALUATION.md).
 
+A third baseline and skill run were captured with `gpt-5.6-terra` at `high` under the same conditions. The 60 baseline outputs are named `terra-baseline.ja.md` and `terra-baseline.en.md`, and the 60 skill outputs are named `skill-baseline.terra.ja.md` and `skill-baseline.terra.en.md`. Their hashes are in `TERRA_SHA256SUMS` and `TERRA_SKILL_SHA256SUMS`; the calibrated comparisons are recorded in [TERRA_EVALUATION.md](TERRA_EVALUATION.md) and [TERRA_SKILL_EVALUATION.md](TERRA_SKILL_EVALUATION.md).
+
 The first full skill run applied `hachi-readable-writing` to the same 60 prompts with both `gpt-5.6-sol` and `gpt-5.6-luna` at `high`. The 120 outputs use `skill-baseline.sol.*.md` and `skill-baseline.luna.*.md`; hashes are in `SKILL_SHA256SUMS`. Per-document before/after scores and aggregate results are in [SKILL_EVALUATION.md](SKILL_EVALUATION.md).
 
 ## Baseline environment
@@ -83,8 +85,10 @@ Each case directory contains:
 - `natural-prompt.ja.md` and `natural-prompt.en.md`: ordinary short requests followed by background notes
 - `natural-baseline.ja.md` and `natural-baseline.en.md`: independently captured outputs for those requests
 - `luna-baseline.ja.md` and `luna-baseline.en.md`: independently captured `gpt-5.6-luna`, `high` outputs for the same requests
+- `terra-baseline.ja.md` and `terra-baseline.en.md`: independently captured `gpt-5.6-terra`, `high` outputs for the same requests
 - `skill-baseline.sol.ja.md` and `skill-baseline.sol.en.md`: Sol `high` outputs with `hachi-readable-writing`
 - `skill-baseline.luna.ja.md` and `skill-baseline.luna.en.md`: Luna `high` outputs with `hachi-readable-writing`
+- `skill-baseline.terra.ja.md` and `skill-baseline.terra.en.md`: Terra `high` outputs with `hachi-readable-writing`
 
 Runs with the proposed skill should be stored as `natural-with-skill.ja.md` and `natural-with-skill.en.md`. Do not overwrite the natural baseline files.
 

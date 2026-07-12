@@ -6,9 +6,9 @@ Evaluation date: July 12, 2026
 
 Some AI-generated writing is factually correct and grammatically sound yet difficult for humans to read. In technical documentation in particular, headings and bullet points can fragment explanations into small pieces. Readers may understand each individual item but struggle to see why one part of the document leads to the next. In English, explanations within individual paragraphs may sound natural, but the same content is often repeated in the introduction, body, and conclusion, making documents and presentation scripts longer than necessary.
 
-This study isolated whether these problems arise from the prompt, language, document type, or model. Based on the findings, we created `hachi-readable-writing`, a skill for producing documents whose flow human readers can follow, and compared GPT-5.6 Sol and GPT-5.6 Luna before and after introducing the skill.
+This study isolated whether these problems arise from the prompt, language, document type, or model. Based on the findings, we created `hachi-readable-writing`, a skill for producing documents whose flow human readers can follow, and compared GPT-5.6 Sol, GPT-5.6 Terra, and GPT-5.6 Luna before and after introducing the skill.
 
-In summary, the skill improved Sol’s average score from 84.2 to 88.9 and Luna’s from 88.4 to 90.4. The 4.2-point gap between the two models before the skill was introduced narrowed to 1.5 points afterward. However, not every document improved: Luna’s presentation scripts, which were already strong, declined by an average of 0.6 points.
+In summary, the skill improved Sol’s average score from 84.2 to 88.9 and Luna’s from 88.4 to 90.4. Terra scored 89.8 without the skill and 89.1 with it in the same evaluation. Terra therefore provides an important counterexample: the skill’s rules cannot be assumed to transfer unchanged across models. The 4.2-point gap between Sol and Luna before the skill was introduced narrowed to 1.5 points afterward, but Terra’s result shows why model-specific calibration remains necessary. Not every document improved: Luna’s presentation scripts and many of Terra’s technical and presentation documents declined.
 
 ## Why We Changed the Testing Method
 
@@ -22,7 +22,7 @@ There were 30 topics, generated separately in Japanese and English. They compris
 
 The technical documents covered an API explanation, offline design, a recovery manual, CLI setup, software development, a Webhook tutorial, incident response, configuration migration, security procedures, and monorepo onboarding. The everyday documents covered a notification, email, travel plan, recipe, repair request, school announcement, exchange inquiry, household budget memo, listing description, and recruitment notice, as well as an essay, daily report, growth record, travelogue, and activity report. The presentations were divided into an executive proposal, technical migration, resident briefing, product demonstration, and internal study session.
 
-All generation used Codex CLI 0.144.1, with the reasoning setting standardized to `high`. An independent temporary session was created for each document, without loading user settings, project rules, or conversation history from other documents. Sol and Luna each generated 60 documents without the skill and another 60 with the skill, resulting in a total of 240 documents for evaluation.
+All generation used Codex CLI 0.144.1, with the reasoning setting standardized to `high`. An independent temporary session was created for each document, without loading user settings, project rules, or conversation history from other documents. Sol, Terra, and Luna each generated 60 documents without the skill and another 60 with the skill, resulting in a total of 360 documents for evaluation.
 
 ## Scoring Method
 
@@ -50,6 +50,12 @@ Luna’s average score without the skill was 88.4, 4.2 points higher than Sol’
 
 However, Luna sometimes interpreted requests as file-creation tasks rather than requests for document content. It would incorporate a work report stating that it could not save the file because the environment was read-only, or wrap the entire document in a Markdown code fence. Even when the content was good, this created a different kind of problem: the output could not be used as-is.
 
+### Terra
+
+Terra’s baseline average was 89.8, 5.6 points above Sol and 1.4 points above Luna in this evaluation. Its strongest relative performance was in technical documents, especially Japanese ones, where it kept the main design or procedure visible instead of expanding every supplied fact into a separate section. Everyday documents were almost identical to Sol at 89.8, while presentations improved over Sol to 88.5 but still required attention to speaking-time fit.
+
+The skill did not transfer cleanly to Terra. Terra’s skill-enabled average fell to 89.1: 8 documents improved, 11 were unchanged, and 41 worsened. The largest regressions were the English and Japanese development guides, where restructuring and scope control turned useful implementation detail into an incomplete or overly compressed guide. This result suggests that Terra already applies some of the skill’s preferred document discipline in its baseline, while the same intervention can over-edit it. Terra needs a stronger “preserve a good draft” gate and more conservative changes for technical and presentation documents.
+
 ## The Skill We Created
 
 `hachi-readable-writing` does not operate solely through fixed instructions for each model name. Model characteristics are used as advance cautions, while corrections prioritize symptoms that actually appear in the draft.
@@ -76,23 +82,29 @@ The presentation rules were revised during testing. Initially, the skill produce
 | Luna · Technical documents | 85.6 | **89.0** | +3.4 |
 | Luna · Everyday documents | 89.8 | **91.9** | +2.1 |
 | Luna · Presentations | 89.5 | **88.9** | −0.6 |
+| Terra · All 60 documents | 89.8 | 89.1 | −0.7 |
+| Terra · Japanese | 92.0 | 88.9 | −3.1 |
+| Terra · English | 87.6 | **89.4** | +1.8 |
+| Terra · Technical documents | 90.5 | 86.3 | −4.3 |
+| Terra · Everyday documents | 89.8 | **92.4** | +2.6 |
+| Terra · Presentations | 88.5 | 85.1 | −3.4 |
 
-For Sol, 37 documents improved, 12 were unchanged, and 11 worsened. For Luna, 41 documents improved, 8 were unchanged, and 11 worsened.
+For Sol, 37 documents improved, 12 were unchanged, and 11 worsened. For Luna, 41 documents improved, 8 were unchanged, and 11 worsened. For Terra, 8 documents improved, 11 were unchanged, and 41 worsened.
 
 The largest improvements were Luna’s English development guide, which rose from 52 to 83; Sol’s Japanese token-leak procedure, from 60 to 88; the Japanese connection-exhaustion response, from 64 to 87; the Japanese offline design, from 62 to 84; and the English token-leak procedure, from 68 to 90. As intended, the skill had a particularly strong effect on restoring the primary narrative thread in Sol’s complex technical documents.
 
-Some documents still worsened. Luna’s English authentication-migration presentation fell from 92 to 87, Sol’s English development guide from 50 to 45, and Luna’s English construction briefing presentation from 91 to 87. With Luna in particular, the skill sometimes intervened too heavily in documents that were already concise and highly polished.
+Some documents still worsened. Luna’s English authentication-migration presentation fell from 92 to 87, Sol’s English development guide from 50 to 45, and Luna’s English construction briefing presentation from 91 to 87. Terra’s English and Japanese development guides fell by 28 and 27 points respectively, showing a more severe over-editing failure. With Luna and Terra, the skill sometimes intervened too heavily in documents that were already concise or had a coherent technical purpose.
 
 ## What We Learned from the Results
 
-First, the problems in AI-generated writing are not determined by language alone. Their manifestations vary depending on the combination of model, language, and document type. Japanese technical documents become fragmented, English presentations become overly long, and Luna mixes in work reports: although all of these can be described as “difficult to read,” they have different causes.
+First, the problems in AI-generated writing are not determined by language alone. Their manifestations vary depending on the combination of model, language, and document type. Japanese technical documents become fragmented, English presentations become overly long, Luna mixes in work reports, and Terra can be over-edited by a correction designed for another model: although all of these can be described as “difficult to read,” they have different causes.
 
 Second, making writing feel more human does not require uniformly prohibiting bullet points or adding emotional language. What matters is defining a single question for the document to answer, explicitly connecting causal and temporal relationships between paragraphs, and keeping the amount of content appropriate to the medium.
 
-Third, a mechanism is needed to decide when not to change a good draft. The skill raised average scores and narrowed the gap between models, but it also had adverse effects on Luna’s presentations. In the future, when a draft already satisfies the requirements for its primary narrative thread, length, language, and format, the system should more strongly favor localized edits over complete restructuring.
+Third, a mechanism is needed to decide when not to change a good draft. The skill raised Sol’s and Luna’s averages but lowered Terra’s and had adverse effects on Luna’s presentations. In the future, when a draft already satisfies the requirements for its primary narrative thread, length, language, and format, the system should more strongly favor localized edits over complete restructuring, with model-specific thresholds for intervention.
 
 ## Records and Reproducibility
 
 The skill itself is located at [`hachi-readable-writing/SKILL.md`](hachi-readable-writing/SKILL.md). The definitions of the 30 topics and the generation environment are documented in [`benchmarks/README.md`](benchmarks/README.md), and all 120 before-and-after comparisons are recorded in [`benchmarks/SKILL_EVALUATION.md`](benchmarks/SKILL_EVALUATION.md). Generated results are stored separately by model, language, and whether the skill was used, and the SHA-256 hash of each series has been cataloged.
 
-The detailed initial investigation and references are available in [`RESEARCH.md`](RESEARCH.md), the evaluation of Sol without the skill in [`benchmarks/NATURAL_EVALUATION.md`](benchmarks/NATURAL_EVALUATION.md), and the baseline comparison of Sol and Luna in [`benchmarks/LUNA_EVALUATION.md`](benchmarks/LUNA_EVALUATION.md). These are retained as supporting materials for the consolidated report.
+The detailed initial investigation and references are available in [`RESEARCH.md`](RESEARCH.md), the evaluation of Sol without the skill in [`benchmarks/NATURAL_EVALUATION.md`](benchmarks/NATURAL_EVALUATION.md), and the baseline comparisons in [`benchmarks/LUNA_EVALUATION.md`](benchmarks/LUNA_EVALUATION.md) and [`benchmarks/TERRA_EVALUATION.md`](benchmarks/TERRA_EVALUATION.md). Terra’s skill comparison is in [`benchmarks/TERRA_SKILL_EVALUATION.md`](benchmarks/TERRA_SKILL_EVALUATION.md). These are retained as supporting materials for the consolidated report.

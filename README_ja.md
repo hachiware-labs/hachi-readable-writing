@@ -38,7 +38,7 @@ npx skills update hachi-readable-writing
 
 ## ベンチマーク
 
-`benchmarks/`には、自然な短い依頼と背景知識だけで構成した30題の日英プロンプト、スキルなしのSol/Luna出力、スキルありのSol/Luna出力、個別評価、ハッシュ目録を収録しています。
+`benchmarks/`には、自然な短い依頼と背景知識だけで構成した30題の日英プロンプト、スキルなしのSol/Terra/Luna出力、スキルありのSol/Terra/Luna出力、個別評価、ハッシュ目録を収録しています。
 
 同じ題材を次の4条件で比較できます。
 
@@ -46,8 +46,10 @@ npx skills update hachi-readable-writing
 |---|---|
 | `natural-baseline.*` | スキルなしのSol基準文書 |
 | `luna-baseline.*` | スキルなしのLuna基準文書 |
+| `terra-baseline.*` | スキルなしのTerra基準文書 |
 | `skill-baseline.sol.*` | スキルありのSol出力 |
 | `skill-baseline.luna.*` | スキルありのLuna出力 |
+| `skill-baseline.terra.*` | スキルありのTerra出力 |
 
 詳細な題材、生成環境、ファイル規約は[ベンチマークREADME](benchmarks/README.md)にあります。全120件の導入前後評価は[SKILL_EVALUATION.md](benchmarks/SKILL_EVALUATION.md)、Lunaの基準評価は[LUNA_EVALUATION.md](benchmarks/LUNA_EVALUATION.md)に記録しています。
 

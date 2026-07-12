@@ -1,0 +1,29 @@
+### Another Place to Belong
+
+Six months after moving to Morioka, I have begun to measure my mornings by Mount Iwate.
+
+From our window, it rises beyond the roofs and streets, sometimes sharply outlined against a pale sky, sometimes softened by cloud. In February, when we had just arrived from Nagoya, I looked at the mountain because it was there, because it was the most certain feature in a city that still felt unfamiliar. Now I look for it without thinking. On cloudy mornings, I feel a small disappointment, as if someone I had expected to see has not come by.
+
+For fifteen years, Nagoya was the place where I lived my ordinary life. I knew its seasons, its stations, the routes that became automatic beneath my feet. I had friends there, work connections, habits accumulated so gradually that I hardly noticed them. Then my spouse received a job transfer, and in February we moved north to Morioka. I continued working remotely, carrying my familiar workdays with me through a screen, while much of the world outside our new home was unknown.
+
+The first weeks were ruled by caution. Snow lay along the streets, and I was afraid of walking on icy roads. I watched where other people placed their feet, taking short steps and wondering whether I looked as uncertain as I felt. The local dialect sometimes passed by me before I could catch its meaning. Even simple exchanges at shops could leave me replaying words afterward, trying to understand what had been said.
+
+So I went out only when I needed to. I shopped, returned home, and opened my computer for work. In the evening, I might look at a map and notice the names of nearby streets and neighborhoods, but they still seemed like labels rather than places I knew. The city was not unfriendly. It simply had its own rhythm, one I had not yet learned how to enter.
+
+In April, my neighbor, Sasaki, invited me to help tend the neighborhood flower beds. It was a casual invitation, offered in the way that people sometimes offer something they assume will be ordinary. I hesitated before accepting. I did not know anyone there. I worried about saying the wrong thing, or not knowing what I was supposed to do. Still, I went.
+
+On the first day, I barely knew how to begin a conversation. There were bags of soil to carry, weeds to pull, and young plants waiting to be placed in the beds. The work gave my hands something to do while I searched for words. Then, little by little, the conversation began around me. Someone mentioned a nearby shop that sold good vegetables. Someone else explained which roads became especially difficult in winter, and what people did to get through the snowy months. The advice was practical, but it did not feel impersonal. It was offered as naturally as passing a bag of soil from one person to another.
+
+I remember realizing that I was learning about Morioka in a way that no guidebook could provide. I was not being introduced to the city as a visitor. I was being told where to buy things, how to walk safely, what to expect when winter returned. These were small pieces of knowledge, but each one carried an assumption: that I would still be here, that this information would matter to me.
+
+Since then, I have joined the flower-bed work about twice a month. The work itself is modest. There are always plants to care for, soil to move, and changing weather to discuss. I am still not someone who speaks easily in every situation, and there are moments when I miss part of the dialect or need a phrase repeated. But that no longer feels like a wall. It feels more like a path I am still walking.
+
+The flower beds have also changed the scale at which I notice the neighborhood. I recognize people I once would have passed without speaking to. I know a few places to recommend when someone asks where to shop. I have heard stories of winters before I arrived and learned that preparing for snow is not only a matter of equipment or forecasts, but of the quiet habits people share. A place becomes familiar through such details: not all at once, and not only through landmarks, but through repeated small acts.
+
+In June, I returned to Nagoya for a business trip. The city felt immediately familiar. I knew the pace of the streets and the feel of moving through places that had shaped so many years of my life. There was comfort in that recognition. I did not feel that I had left Nagoya behind, nor did I want to. It remains a place full of memories and relationships, a place that still answers to something deep in me.
+
+Yet during that trip, I found myself missing Morioka’s quiet mornings. I missed looking toward the window to see whether Mount Iwate was visible. I missed the slower beginning of the day, the sense of space around the city, and even the awareness that I was still learning how to live there. That surprised me. I had expected Nagoya to feel like a return, and it did. But I had not expected Morioka to feel absent.
+
+I do not think this means that my hometown has changed. That would be too simple, and perhaps too final. Nagoya is still part of me, as it has been for many years. What has changed is smaller and more gradual. In Morioka, I am beginning to have people who greet me, work that connects me to a corner of the neighborhood, and a mountain whose presence has become part of my day.
+
+Belonging, I am learning, may not arrive as a declaration. It may begin with an invitation, a bag of soil, a conversation about winter, or a morning glance toward a familiar mountain. Six months after arriving, I am not finished becoming part of Morioka. But I have begun to feel that I am gaining another place where I belong.

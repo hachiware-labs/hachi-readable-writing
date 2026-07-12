@@ -38,7 +38,7 @@ See the [Skills CLI documentation](https://www.skills.sh/docs/cli) for the curre
 
 ## Benchmark
 
-The `benchmarks/` directory contains 30 natural-input cases. Each case has a short user request and background notes, followed by Japanese and English outputs from Sol and Luna with and without the skill. The cases cover 10 technical documents, 15 everyday documents, and 5 presentations.
+The `benchmarks/` directory contains 30 natural-input cases. Each case has a short user request and background notes, followed by Japanese and English outputs from Sol, Terra, and Luna with and without the skill. The cases cover 10 technical documents, 15 everyday documents, and 5 presentations.
 
 The four output families are:
 
@@ -46,7 +46,9 @@ The four output families are:
 |---|---|
 | `natural-baseline.*` | Sol output without the skill |
 | `luna-baseline.*` | Luna output without the skill |
+| `terra-baseline.*` | Terra output without the skill |
 | `skill-baseline.sol.*` | Sol output with the skill |
 | `skill-baseline.luna.*` | Luna output with the skill |
+| `skill-baseline.terra.*` | Terra output with the skill |
 
 See the [benchmark README](benchmarks/README.md) for the environment and file conventions. The 120 before/after comparisons are in [SKILL_EVALUATION.md](benchmarks/SKILL_EVALUATION.md). The initial research is in [RESEARCH.md](RESEARCH.md).
