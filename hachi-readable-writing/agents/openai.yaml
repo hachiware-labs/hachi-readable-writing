@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hachi Readable Writing"
+  short_description: "人間が流れを追って理解できる自然な文書を作成します"
+  default_prompt: "Use $hachi-readable-writing to turn these notes into a clear, natural document."
