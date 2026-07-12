@@ -70,7 +70,9 @@ Read [language-and-model.md](references/language-and-model.md) when writing in J
 
 Read [document-types.md](references/document-types.md) for technical documents, emergency runbooks, essays and reports, or presentation scripts.
 
-After drafting, revise once at document level:
+Treat the first coherent draft as an asset. The skill is not a request to make it longer, more formal, more comprehensive, or more visibly structured. Before revising, apply a preservation gate: if the draft already has one clear throughline, fits its length and format, stays within the supplied facts, and uses the requested language, keep its structure and make only local corrections. Rebuild the document only when one of those conditions fails.
+
+After drafting, revise once at the smallest effective scope:
 
 1. State the document's main movement in one sentence. If this is difficult, reorder or cut sections.
 2. Check that every paragraph has a reason to follow the previous one.
@@ -80,6 +82,8 @@ After drafting, revise once at document level:
 6. Verify that supplied facts remain accurate and unknowns remain unknown.
 7. Remove all agent process language, file-creation commentary, offers to continue, and wrappers around the deliverable.
 8. Compare the finished document's dominant language with the user's requested language. If they differ, rewrite the document in the requested language before returning it. Reference-file language never overrides the request.
+
+Do not add headings, examples, implementation detail, recaps, or transitions merely to demonstrate that the skill was applied. A good unchanged passage is a successful result.
 
 Return only the finished document unless the user requests commentary, alternatives, or an explanation of edits. Never say that a file could not be created when the requested deliverable can be returned directly. Never wrap an entire Markdown document in a Markdown code fence.
 

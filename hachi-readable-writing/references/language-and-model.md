@@ -52,6 +52,30 @@ Observed Luna drafts often preserve the main action path and control length bett
 
 Remove the execution narrative and deliver the document directly. Keep code fences only around actual code or literal data inside the document.
 
+## Terra-family prior
+
+Observed Terra drafts often preserve the main line, control formatting, and write natural Japanese without help. Treat these strengths as the default state to preserve. Do not apply Sol-style compression or restructuring unless the actual draft shows fragmentation or excessive coverage.
+
+Look especially for a small number of high-impact failures:
+
+- answering an English request in Japanese or otherwise switching the dominant language;
+- inventing prices, schedules, URLs, product behavior, forms, or operational promises to make a document feel complete;
+- expanding a request for representative code into a near-complete implementation;
+- repeating evidence and responsibilities across presentation sections until the spoken time no longer fits;
+- changing an explicit source priority, such as placing evidence capture before an immediately required containment action;
+- removing useful document identity or lookup structure, such as a daily report's date or a notice's actionable label.
+
+Use conservative intervention:
+
+1. Check requested language and unsupported claims first; correct them even if the prose is otherwise strong.
+2. If the throughline, length, and format already fit, preserve the section order and most sentences.
+3. Make local deletions or corrections instead of rebuilding the document.
+4. Preserve supplied priorities over generic document-type templates.
+5. For code-heavy guides, choose the minimum representative code needed to explain boundaries and data flow. Do not complete the application or add files merely because implementation details are available.
+6. For presentations, keep one spoken argument and enforce the time limit without manufacturing slide-by-slide repetition.
+
+Do not lower specificity that the reader needs merely to make the output shorter. Terra's main correction target is a consequential defect, not stylistic difference from the skill examples.
+
 ## Unknown or future models
 
 Do not guess a family. Diagnose observable symptoms:

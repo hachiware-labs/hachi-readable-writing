@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.6 seconds
-Output:
 c5d3a790e243d6f032934e7bf6b57cd322cbf3e6ca847ccced614810a371b2ae  cases/01-api-explanation/terra-baseline.en.md
 47d31afd78cfce932c3203656d5bd23b65b739dbc55d2f96f456a8401feb9528  cases/01-api-explanation/terra-baseline.ja.md
 2100365119890ad1bd10adbe78f70877f91d956cada5105721fbf4ebd260695d  cases/02-offline-architecture/terra-baseline.en.md

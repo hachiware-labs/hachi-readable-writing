@@ -52,8 +52,9 @@ npx skills update hachi-readable-writing
 | `skill-baseline.sol.*` | スキルありのSol出力 |
 | `skill-baseline.luna.*` | スキルありのLuna出力 |
 | `skill-baseline.terra.*` | スキルありのTerra出力 |
+| `skill-baseline.terra-v2.*` | Terra専用補正後の出力 |
 
-詳細な題材、生成環境、ファイル規約は[ベンチマークREADME](benchmarks/README.md)にあります。全120件の導入前後評価は[SKILL_EVALUATION.md](benchmarks/SKILL_EVALUATION.md)、Lunaの基準評価は[LUNA_EVALUATION.md](benchmarks/LUNA_EVALUATION.md)に記録しています。
+詳細な題材、生成環境、ファイル規約は[ベンチマークREADME](benchmarks/README.md)にあります。SolとLunaの導入前後評価は[SKILL_EVALUATION.md](benchmarks/SKILL_EVALUATION.md)、Terra対応後の評価は[TERRA_SKILL_EVALUATION.md](benchmarks/TERRA_SKILL_EVALUATION.md)、Lunaの基準評価は[LUNA_EVALUATION.md](benchmarks/LUNA_EVALUATION.md)に記録しています。
 
 ## 初期調査
 

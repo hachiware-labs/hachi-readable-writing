@@ -27,9 +27,15 @@ Put prerequisites and irreversible consequences before the action. Keep one oper
 
 A tutorial must also teach the mental model: introduce the reason for a sensitive step before presenting code that depends on it.
 
+## Software development guide
+
+Explain the architecture and the boundaries between modules before showing code. When the user asks for code examples, select representative seams such as the domain type, one state transition, a persistence boundary, and one test. Do not turn the guide into a complete application, file dump, or scaffold unless the user explicitly asks for an implementation.
+
+Every code block must teach a decision stated in the surrounding prose. Omit routine UI wiring and repeated variants when they do not introduce a new idea. If complete code would dominate the document, show a smaller internally consistent excerpt and state what the reader implements analogously.
+
 ## Incident and security runbook
 
-Make the first safe action unmistakable. Preserve this sequence unless the facts require another:
+Make the first safe action unmistakable. Preserve this sequence unless the supplied facts require another. Explicit source priorities override this template:
 
 1. immediate containment;
 2. minimal evidence preservation required before destructive cleanup;

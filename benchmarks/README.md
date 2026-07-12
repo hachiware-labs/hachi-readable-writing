@@ -10,7 +10,7 @@ The natural-input baseline was captured on 2026-07-12 with the same CLI, model, 
 
 A second baseline was captured with `gpt-5.6-luna` at `high`, keeping the prompts, CLI version, personality, isolation flags, and empty read-only working directory unchanged. Its 60 outputs are named `luna-baseline.ja.md` and `luna-baseline.en.md`; hashes are in `LUNA_SHA256SUMS`. The calibrated comparison against Sol is recorded in [LUNA_EVALUATION.md](LUNA_EVALUATION.md).
 
-A third baseline and skill run were captured with `gpt-5.6-terra` at `high` under the same conditions. The 60 baseline outputs are named `terra-baseline.ja.md` and `terra-baseline.en.md`, and the 60 skill outputs are named `skill-baseline.terra.ja.md` and `skill-baseline.terra.en.md`. Their hashes are in `TERRA_SHA256SUMS` and `TERRA_SKILL_SHA256SUMS`; the calibrated comparisons are recorded in [TERRA_EVALUATION.md](TERRA_EVALUATION.md) and [TERRA_SKILL_EVALUATION.md](TERRA_SKILL_EVALUATION.md).
+A third baseline and skill run were captured with `gpt-5.6-terra` at `high` under the same conditions. The 60 baseline outputs are named `terra-baseline.ja.md` and `terra-baseline.en.md`. The first skill outputs, retained for historical comparison, are named `skill-baseline.terra.ja.md` and `skill-baseline.terra.en.md`. After Terra-specific analysis and skill calibration, the current 60 outputs were captured as `skill-baseline.terra-v2.ja.md` and `skill-baseline.terra-v2.en.md`. Their hashes are in `TERRA_SHA256SUMS`, `TERRA_SKILL_SHA256SUMS`, and `TERRA_SKILL_V2_SHA256SUMS`; the analysis and calibrated comparisons are recorded in [TERRA_ANALYSIS.md](TERRA_ANALYSIS.md), [TERRA_EVALUATION.md](TERRA_EVALUATION.md), and [TERRA_SKILL_EVALUATION.md](TERRA_SKILL_EVALUATION.md).
 
 The first full skill run applied `hachi-readable-writing` to the same 60 prompts with both `gpt-5.6-sol` and `gpt-5.6-luna` at `high`. The 120 outputs use `skill-baseline.sol.*.md` and `skill-baseline.luna.*.md`; hashes are in `SKILL_SHA256SUMS`. Per-document before/after scores and aggregate results are in [SKILL_EVALUATION.md](SKILL_EVALUATION.md).
 
@@ -89,6 +89,7 @@ Each case directory contains:
 - `skill-baseline.sol.ja.md` and `skill-baseline.sol.en.md`: Sol `high` outputs with `hachi-readable-writing`
 - `skill-baseline.luna.ja.md` and `skill-baseline.luna.en.md`: Luna `high` outputs with `hachi-readable-writing`
 - `skill-baseline.terra.ja.md` and `skill-baseline.terra.en.md`: Terra `high` outputs with `hachi-readable-writing`
+- `skill-baseline.terra-v2.ja.md` and `skill-baseline.terra-v2.en.md`: Terra `high` outputs after Terra-specific skill calibration
 
 Runs with the proposed skill should be stored as `natural-with-skill.ja.md` and `natural-with-skill.en.md`. Do not overwrite the natural baseline files.
 

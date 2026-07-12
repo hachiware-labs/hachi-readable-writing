@@ -52,5 +52,6 @@ The four output families are:
 | `skill-baseline.sol.*` | Sol output with the skill |
 | `skill-baseline.luna.*` | Luna output with the skill |
 | `skill-baseline.terra.*` | Terra output with the skill |
+| `skill-baseline.terra-v2.*` | Terra output after Terra-specific calibration |
 
-See the [benchmark README](benchmarks/README.md) for the environment and file conventions. The 120 before/after comparisons are in [SKILL_EVALUATION.md](benchmarks/SKILL_EVALUATION.md). The initial research is in [RESEARCH.md](RESEARCH.md).
+See the [benchmark README](benchmarks/README.md) for the environment and file conventions. The Sol and Luna before/after comparisons are in [SKILL_EVALUATION.md](benchmarks/SKILL_EVALUATION.md); Terra’s revised comparison is in [TERRA_SKILL_EVALUATION.md](benchmarks/TERRA_SKILL_EVALUATION.md). The initial research is in [RESEARCH.md](RESEARCH.md).

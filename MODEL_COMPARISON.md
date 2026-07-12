@@ -7,20 +7,20 @@ This document puts the three model evaluations on one scale. Each model generate
 | Model | Without skill | With `hachi-readable-writing` | Difference | Improved / same / worsened |
 |---|---:|---:|---:|---:|
 | Sol | 84.2 | **88.9** | +4.6 | 37 / 12 / 11 |
-| Terra | **89.8** | 89.1 | −0.7 | 8 / 11 / 41 |
+| Terra | 89.8 | **92.5** | +2.7 | 25 / 21 / 14 |
 | Luna | 88.4 | **90.4** | +2.1 | 41 / 8 / 11 |
 
-Terra had the highest baseline score, while Luna had the highest score after the skill. Terra is therefore the clearest warning against treating one writing correction as universally beneficial: its baseline already avoided several Sol-like problems, and the skill often restructured documents that were adequate as written.
+Terra had the highest baseline score and, after Terra-specific calibration, the highest score with the skill. Its initial uncalibrated skill run scored 89.1, so the improvement depends on preserving already-good drafts and correcting only consequential defects.
 
 ## By document group
 
 | Group | Sol before | Sol after | Terra before | Terra after | Luna before | Luna after |
 |---|---:|---:|---:|---:|---:|---:|
-| Japanese | 84.9 | 89.1 | **92.0** | 88.9 | 88.1 | 89.6 |
-| English | 83.6 | 88.7 | 87.6 | 89.4 | 88.7 | **91.3** |
-| Technical | 79.8 | 85.0 | **90.5** | 86.3 | 85.6 | 89.0 |
-| Everyday | 87.9 | 91.0 | 89.8 | **92.4** | 89.8 | 91.9 |
-| Presentations | 82.1 | **90.4** | 88.5 | 85.1 | 89.5 | 88.9 |
+| Japanese | 84.9 | 89.1 | 92.0 | **92.3** | 88.1 | 89.6 |
+| English | 83.6 | 88.7 | 87.6 | **92.7** | 88.7 | 91.3 |
+| Technical | 79.8 | 85.0 | 90.5 | **91.9** | 85.6 | 89.0 |
+| Everyday | 87.9 | 91.0 | 89.8 | **94.4** | 89.8 | 91.9 |
+| Presentations | 82.1 | **90.4** | 88.5 | 87.8 | 89.5 | 88.9 |
 
 ## What the comparison suggests
 

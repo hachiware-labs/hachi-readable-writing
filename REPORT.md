@@ -8,7 +8,7 @@ Some AI-generated writing is factually correct and grammatically sound yet diffi
 
 This study isolated whether these problems arise from the prompt, language, document type, or model. Based on the findings, we created `hachi-readable-writing`, a skill for producing documents whose flow human readers can follow, and compared GPT-5.6 Sol, GPT-5.6 Terra, and GPT-5.6 Luna before and after introducing the skill.
 
-In summary, the skill improved Sol’s average score from 84.2 to 88.9 and Luna’s from 88.4 to 90.4. Terra scored 89.8 without the skill and 89.1 with it in the same evaluation. Terra therefore provides an important counterexample: the skill’s rules cannot be assumed to transfer unchanged across models. The 4.2-point gap between Sol and Luna before the skill was introduced narrowed to 1.5 points afterward, but Terra’s result shows why model-specific calibration remains necessary. Not every document improved: Luna’s presentation scripts and many of Terra’s technical and presentation documents declined.
+In summary, the skill improved Sol’s average score from 84.2 to 88.9 and Luna’s from 88.4 to 90.4. The first uncalibrated Terra run fell from 89.8 to 89.1, showing that the same correction could not be transferred unchanged. After adding a Terra-specific preservation gate and targeted checks, Terra reached 92.5. The revised result improved English, technical, and everyday documents, while presentations remained 0.7 points below Terra’s baseline.
 
 ## Why We Changed the Testing Method
 
@@ -54,7 +54,7 @@ However, Luna sometimes interpreted requests as file-creation tasks rather than 
 
 Terra’s baseline average was 89.8, 5.6 points above Sol and 1.4 points above Luna in this evaluation. Its strongest relative performance was in technical documents, especially Japanese ones, where it kept the main design or procedure visible instead of expanding every supplied fact into a separate section. Everyday documents were almost identical to Sol at 89.8, while presentations improved over Sol to 88.5 but still required attention to speaking-time fit.
 
-The skill did not transfer cleanly to Terra. Terra’s skill-enabled average fell to 89.1: 8 documents improved, 11 were unchanged, and 41 worsened. The largest regressions were the English and Japanese development guides, where restructuring and scope control turned useful implementation detail into an incomplete or overly compressed guide. This result suggests that Terra already applies some of the skill’s preferred document discipline in its baseline, while the same intervention can over-edit it. Terra needs a stronger “preserve a good draft” gate and more conservative changes for technical and presentation documents.
+The first skill version did not transfer cleanly to Terra. Its average fell to 89.1: 8 documents improved, 11 were unchanged, and 41 worsened. We therefore added a preservation gate, language and unsupported-claim checks, explicit respect for source priorities, and tighter scope control for code-heavy guides. After that revision, Terra reached 92.5, with 25 improvements, 21 ties, and 14 regressions. The remaining weakness was presentations: the revised skill sometimes shortened them below the requested speaking duration.
 
 ## The Skill We Created
 
@@ -62,7 +62,7 @@ The skill did not transfer cleanly to Terra. Terra’s skill-enabled average fel
 
 Before writing, it determines the reader, the action the reader should take afterward, the single question supporting the document, what is known and unknown, and whether the document is intended to be read continuously or used as a reference. During writing, it first explains causality, time, contrast, and the reasons behind decisions in prose, using bullet points only for information that is genuinely parallel. After writing, it checks paragraph transitions, repetition, additions not found in the input, length, output language, and the accidental inclusion of work reports or outer code fences.
 
-In Japanese, it avoids merely lining up noun phrases or English terms and instead states in sentences who does what and why. In English, it avoids repeating the same explanation in the introduction, body, conclusion, and checklist. For Sol, it focuses on excessive comprehensiveness and fragmentation; for Luna, it focuses on confusion between work reports and completed documents.
+In Japanese, it avoids merely lining up noun phrases or English terms and instead states in sentences who does what and why. In English, it avoids repeating the same explanation in the introduction, body, conclusion, and checklist. For Sol, it focuses on excessive comprehensiveness and fragmentation; for Luna, it focuses on confusion between work reports and completed documents; for Terra, it preserves a coherent draft and targets language mismatch, unsupported claims, code over-expansion, and source-priority violations.
 
 The presentation rules were revised during testing. Initially, the skill produced both slide text and a spoken script simultaneously, making Sol’s documents even longer. We therefore changed it so that it would not produce both unless explicitly requested by the user, and would treat a “presentation script” as the content to be spoken. We also added a requirement to reserve 15% of the presentation time for transitions, pauses, and demonstrations.
 
@@ -82,18 +82,18 @@ The presentation rules were revised during testing. Initially, the skill produce
 | Luna · Technical documents | 85.6 | **89.0** | +3.4 |
 | Luna · Everyday documents | 89.8 | **91.9** | +2.1 |
 | Luna · Presentations | 89.5 | **88.9** | −0.6 |
-| Terra · All 60 documents | 89.8 | 89.1 | −0.7 |
-| Terra · Japanese | 92.0 | 88.9 | −3.1 |
-| Terra · English | 87.6 | **89.4** | +1.8 |
-| Terra · Technical documents | 90.5 | 86.3 | −4.3 |
-| Terra · Everyday documents | 89.8 | **92.4** | +2.6 |
-| Terra · Presentations | 88.5 | 85.1 | −3.4 |
+| Terra · All 60 documents | 89.8 | **92.5** | +2.7 |
+| Terra · Japanese | 92.0 | **92.3** | +0.3 |
+| Terra · English | 87.6 | **92.7** | +5.0 |
+| Terra · Technical documents | 90.5 | **91.9** | +1.4 |
+| Terra · Everyday documents | 89.8 | **94.4** | +4.6 |
+| Terra · Presentations | 88.5 | 87.8 | −0.7 |
 
-For Sol, 37 documents improved, 12 were unchanged, and 11 worsened. For Luna, 41 documents improved, 8 were unchanged, and 11 worsened. For Terra, 8 documents improved, 11 were unchanged, and 41 worsened.
+For Sol, 37 documents improved, 12 were unchanged, and 11 worsened. For Luna, 41 documents improved, 8 were unchanged, and 11 worsened. After Terra-specific calibration, 25 Terra documents improved, 21 were unchanged, and 14 worsened.
 
 The largest improvements were Luna’s English development guide, which rose from 52 to 83; Sol’s Japanese token-leak procedure, from 60 to 88; the Japanese connection-exhaustion response, from 64 to 87; the Japanese offline design, from 62 to 84; and the English token-leak procedure, from 68 to 90. As intended, the skill had a particularly strong effect on restoring the primary narrative thread in Sol’s complex technical documents.
 
-Some documents still worsened. Luna’s English authentication-migration presentation fell from 92 to 87, Sol’s English development guide from 50 to 45, and Luna’s English construction briefing presentation from 91 to 87. Terra’s English and Japanese development guides fell by 28 and 27 points respectively, showing a more severe over-editing failure. With Luna and Terra, the skill sometimes intervened too heavily in documents that were already concise or had a coherent technical purpose.
+Some documents still worsened. Luna’s English authentication-migration presentation fell from 92 to 87, Sol’s English development guide from 50 to 45, and Luna’s English construction briefing presentation from 91 to 87. Terra’s revised development guides instead rose from 70 to 80 in English and from 72 to 80 in Japanese. Terra’s remaining regressions were concentrated in presentations that became too short for the requested duration.
 
 ## What We Learned from the Results
 
