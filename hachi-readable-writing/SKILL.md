@@ -21,7 +21,7 @@ Before drafting, determine silently:
 4. Which facts are supplied, which are uncertain, and which would be inventions?
 5. Is the document mainly for continuous reading, later reference, live action, or oral delivery?
 
-Ask only when a missing answer would materially change the document. Otherwise make a modest assumption and avoid fabricated specifics.
+When purpose, constraints, or output format are unspecified, infer only what the request and source material reasonably support. If one conservative, low-impact choice is apparent, use it. If several plausible choices would materially change the document, briefly state the proposed direction or assumptions and ask for confirmation before drafting. When the user requests an immediate deliverable, proceed with conservative defaults unless the unknown concerns facts, authority, safety, or a hard requirement. Never present an inference as a supplied requirement or invent specifics to fill a gap.
 
 Write in the language requested by the user. When the request does not name a language, use the language of the request and source notes. Never copy the language of this skill or its reference files merely because they were loaded into context. Preserve source-language quotations, identifiers, commands, and interface labels only where the document needs them.
 
